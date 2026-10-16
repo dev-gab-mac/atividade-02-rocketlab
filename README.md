@@ -1,2 +1,2 @@
-# atividade-02-rocketlab
-Entrega da atividade 02 do rocketlab
+# atividade-03-rocketlab
+Entrega da atividade 03 do rocketlab

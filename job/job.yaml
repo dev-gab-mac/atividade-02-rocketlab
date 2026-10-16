@@ -1,0 +1,37 @@
+resources:
+  jobs:
+    CineData_Pipeline:
+      name: CineData_Pipeline
+      schedule:
+        quartz_cron_expression: 15 0 8 ? * Mon
+        timezone_id: America/Sao_Paulo
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: to_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/gabriel.maacl@gmail.com/Drafts/entrega-03/Landing_to_Bronze
+            base_parameters:
+              catalogo: workspace
+              volume_path: /Volumes/workspace/default/entrega-atv-02/Base_de_Dados
+              data_inicio: ""
+              data_fim: ""
+            source: WORKSPACE
+        - task_key: to_Silver
+          depends_on:
+            - task_key: to_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/gabriel.maacl@gmail.com/Drafts/entrega-03/Bronze_to_Silver
+            base_parameters:
+              catalogo: workspace
+            source: WORKSPACE
+        - task_key: to_Gold
+          depends_on:
+            - task_key: to_Silver
+          notebook_task:
+            notebook_path: /Workspace/Users/gabriel.maacl@gmail.com/Drafts/entrega-03/Silver_to_Gold
+            base_parameters:
+              catalogo: workspace
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
